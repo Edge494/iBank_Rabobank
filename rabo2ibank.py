@@ -22,7 +22,7 @@ df2['Bedrag'] =  df2['Bedrag'].astype(float)
 
 df2['Datum'] =  df2['Datum'].astype(str)
 df2.Datum = df2.Datum.apply(lambda d: datetime.strptime(d, '%Y%m%d'))
-
+df2['Datum']=df2['Datum'].map(lambda x: x.strftime('%d/%m/%Y'))
 
 #Berekening maken of bedrag positief of negatief is
 df2['Bedrag2'] = df2.apply(lambda row: (row['Bedrag']
