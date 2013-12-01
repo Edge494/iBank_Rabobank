@@ -1,5 +1,5 @@
 __author__ = 'Edmond van der Plas'
-__date__ = '30-11-2013'
+__date__ = '01-12-2013'
 __version__ = '0.2.1'
 
 import pandas as pd
@@ -20,6 +20,8 @@ df2 = df2.astype(object).fillna(' ')
 #Een float maken van de bedragen (als type)
 df2['Bedrag'] =  df2['Bedrag'].astype(float)
 
+#Datum als string voor omzetten naar datetime64 in 2e regel
+#In derde regel wordt de formattering van de datum voor Ibank toegepast, namelijk dd/mm/yyyy
 df2['Datum'] =  df2['Datum'].astype(str)
 df2.Datum = df2.Datum.apply(lambda d: datetime.strptime(d, '%Y%m%d'))
 df2['Datum']=df2['Datum'].map(lambda x: x.strftime('%d/%m/%Y'))
@@ -28,8 +30,6 @@ df2['Datum']=df2['Datum'].map(lambda x: x.strftime('%d/%m/%Y'))
 df2['Bedrag2'] = df2.apply(lambda row: (row['Bedrag']
                                              if row['afbij']=='cb'
                                             else -row['Bedrag']), axis=1)
-
-print df2.dtypes
 
 #Kolommen selecteren voor output
 df3 = df2[['Datum','Omschrijving', 'Bedrag2','Tegenrekening']]
