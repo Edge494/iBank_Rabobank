@@ -12,27 +12,27 @@ from datetime import datetime
 df = pd.read_csv(sys.argv[1], header=None, na_values='') #
 
 df2 = df[[2, 4, 6, 8, 10]]
-df2.columns=['Datum', 'Bedrag', 'Tegenrekening', 'afbij','Omschrijving']
+df2.columns=['Date', 'Amount', 'Payee', 'afbij','Memo']
 
-#Indien geen tegenrekening bekend, dan - weergeven i.p.v. NaN
+#Indien geen Payee bekend, dan - weergeven i.p.v. NaN
 df2 = df2.astype(object).fillna(' ')
 
-#Een float maken van de bedragen (als type)
-df2['Bedrag'] =  df2['Bedrag'].astype(float)
+#Een float maken van de Amounten (als type)
+df2['Amount'] =  df2['Amount'].astype(float)
 
-#Datum als string voor omzetten naar datetime64 in 2e regel
-#In derde regel wordt de formattering van de datum voor Ibank toegepast, namelijk dd/mm/yyyy
-df2['Datum'] =  df2['Datum'].astype(str)
-df2.Datum = df2.Datum.apply(lambda d: datetime.strptime(d, '%Y%m%d'))
-df2['Datum']=df2['Datum'].map(lambda x: x.strftime('%d/%m/%Y'))
+#Date als string voor omzetten naar datetime64 in 2e regel
+#In derde regel wordt de formattering van de Date voor Ibank toegepast, namelijk dd/mm/yyyy
+df2['Date'] =  df2['Date'].astype(str)
+df2.Date = df2.Date.apply(lambda d: datetime.strptime(d, '%Y%m%d'))
+df2['Date']=df2['Date'].map(lambda x: x.strftime('%d/%m/%Y'))
 
-#Berekening maken of bedrag positief of negatief is
-df2['Bedrag2'] = df2.apply(lambda row: (row['Bedrag']
+#Berekening maken of Amount positief of negatief is
+df2['Amount2'] = df2.apply(lambda row: (row['Amount']
                                              if row['afbij']=='cb'
-                                            else -row['Bedrag']), axis=1)
+                                            else -row['Amount']), axis=1)
 
 #Kolommen selecteren voor output
-df3 = df2[['Datum','Omschrijving', 'Bedrag2','Tegenrekening']]
+df3 = df2[['Date','Memo', 'Amount2','Payee']]
 
 #Datastructuur naar csv schrijven
 df3.to_csv('transacties_rabo_ibank.csv', sep=',', na_rep='0', dtype=int)
