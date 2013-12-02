@@ -14,7 +14,7 @@ df = pd.read_csv(sys.argv[1], header=None, na_values='') #
 df2 = df[[2, 4, 6, 8, 10]]
 df2.columns=['Date', 'Amount', 'Payee', 'afbij','Memo']
 
-#Indien geen Payee bekend, dan - weergeven i.p.v. NaN
+#Indien geen Payee bekend, dan whitespace weergeven i.p.v. NaN
 df2 = df2.astype(object).fillna(' ')
 
 #Een float maken van de Amounten (als type)
