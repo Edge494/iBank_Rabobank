@@ -1,6 +1,6 @@
 __author__ = 'Edmond van der Plas'
-__date__ = '01-12-2013'
-__version__ = '0.2.1'
+__date__ = '07-12-2013'
+__version__ = '0.3.1'
 
 import pandas as pd
 
@@ -17,7 +17,7 @@ df2.columns=['Date', 'Amount', 'Payee', 'afbij','Memo']
 #Indien geen Payee bekend, dan whitespace weergeven i.p.v. NaN
 df2 = df2.astype(object).fillna(' ')
 
-#Een float maken van de Amounten (als type)
+#Een float maken van de Amount (als type)
 df2['Amount'] =  df2['Amount'].astype(float)
 
 #Date als string voor omzetten naar datetime64 in 2e regel
@@ -31,10 +31,12 @@ df2['Amount2'] = df2.apply(lambda row: (row['Amount']
                                              if row['afbij']=='cb'
                                             else -row['Amount']), axis=1)
 
+#df2['Amount2'].replace(',','').replace('.',',').astype(float)
+
 #Kolommen selecteren voor output
 df3 = df2[['Date','Memo', 'Amount2','Payee']]
 
 #Datastructuur naar csv schrijven
-df3.to_csv('transacties_rabo_ibank.csv', sep=',', na_rep='0', dtype=int)
+df3.to_csv('transacties_rabo_ibank.csv', sep=';', na_rep='0', dtype=int)
 
 print df3
