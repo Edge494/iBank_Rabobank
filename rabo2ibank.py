@@ -1,6 +1,6 @@
 __author__ = 'Edmond van der Plas'
 __date__ = '07-12-2013'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 import pandas as pd
 
@@ -37,6 +37,6 @@ df2['Amount2'] = df2.apply(lambda row: (row['Amount']
 df3 = df2[['Date','Memo', 'Amount2','Payee']]
 
 #Datastructuur naar csv schrijven
-df3.to_csv('transacties_rabo_ibank.csv', sep=';', na_rep='0', dtype=int)
+df3.to_csv('transacties_rabo_ibank.csv', sep=',', na_rep='0', dtype=int)
 
 print df3
